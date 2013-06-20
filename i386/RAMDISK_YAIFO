@@ -1,4 +1,4 @@
-#	$OpenBSD: RAMDISK_CD,v 1.190 2011/06/29 20:52:09 matthew Exp $
+#	$OpenBSD: RAMDISK_CD,v 1.194 2012/11/16 02:15:38 brad Exp $
 
 machine		i386		# architecture, used by config; REQUIRED
 
@@ -129,6 +129,7 @@ aue*	at uhub?		# ADMtek AN986 Pegasus Ethernet
 axe*	at uhub?		# ASIX Electronics AX88172 USB Ethernet
 cue*	at uhub?		# CATC USB-EL1201A based Ethernet
 kue*	at uhub?		# Kawasaki KL5KUSB101B based Ethernet
+smsc*	at uhub?		# SMSC LAN95xx Ethernet
 upl*	at uhub?		# Prolific PL2301/PL2302 host-to-host `network'
 #urio*	at uhub?		# Diamond Multimedia Rio 500
 cdce*	at uhub?		# CDC Ethernet
@@ -207,6 +208,7 @@ gdt*	at pci?			# ICP Vortex GDT RAID controllers
 #aac*	at pci?			# Adaptec FSA RAID controllers
 ami*	at pci?			# AMI MegaRAID controllers
 mfi*	at pci?			# LSI MegaRAID SAS controllers
+mfii*	at pci?			# LSI MegaRAID SAS Fusion controllers
 cac*	at pci?			# Compaq Smart ARRAY [234]* RAID controllers
 cac*	at eisa?
 ciss*	at pci?			# Compaq Smart ARRAY [56]* RAID controllers
@@ -318,6 +320,7 @@ em*	at pci?				# Intel Pro/1000 ethernet
 gcu*    at pci?                         # Intel EP80579 auxlliary mii device
 ixgb*	at pci?				# Intel Pro/10Gb ethernet
 ix*	at pci?				# Intel 82598EB 10Gb ethernet
+oce*	at pci?				# Emulex OneConnect 10Gb ethernet
 txp*	at pci?				# 3com 3CR990
 nge*	at pci?				# NS DP83820/DP83821 GigE
 re*	at pci?				# Realtek 8169/8169S/8110S
@@ -381,6 +384,7 @@ nsphyter*	at mii?			# NS and compatible PHYs
 qsphy*	at mii?				# Quality Semi QS6612 PHYs
 luphy*	at mii?				# Lucent LU6612 PHY
 sqphy*	at mii?				# Seeq 8x220 PHYs
+tlphy*	at mii?				# ThunderLAN PHYs
 rlphy* at mii?				# RealTek 8139 internal PHYs
 mtdphy*	at mii?				# Myson MTD972 PHYs
 dcphy*	at mii?				# Digital Clone PHYs
@@ -411,3 +415,8 @@ pseudo-device	rd	1		# ramdisk
 pseudo-device	wsmux	2
 pseudo-device	bio	1		# ioctl multiplexing device
 pseudo-device   pty     2
+
+# Virtio devices
+virtio*	at pci?				# Virtio PCI device
+vioblk*	at virtio?			# Virtio block device
+vio*	at virtio?			# Virtio network device
