@@ -173,7 +173,7 @@ bsd.rd:	${IMAGE} bsd rdsetroot
 
 bsd:
 	mkdir -p ${.OBJDIR}/kernel
-	config -b ${.OBJDIR}/kernel -s ${SRCDIR}/sys ${TOP}/${MACHINE}/${RAMDISK}
+	config -b ${.OBJDIR}/kernel -s ${SRCDIR}/sys ${.CURDIR}/${MACHINE}/${RAMDISK}
 	cd ${.OBJDIR}/kernel && \
 		make clean && make depend && COPTS=-Os make
 	cp ${.OBJDIR}/kernel/bsd bsd
