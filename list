@@ -88,8 +88,6 @@ SCRIPT	${CURDIR}/install.sub			install.sub
 SPECIAL	chmod 755 install upgrade
 SCRIPT	${CURDIR}/net.sh			net
 SCRIPT	${CURDIR}/config			config
-SCRIPT ${SRCDIR}/sbin/dhclient/dhclient-script sbin/dhclient-script
-SPECIAL	chmod 755 net sbin/dhclient-script
 SPECIAL	mkdir -p etc/ssh
 COPY	${CURDIR}/authorized_keys		etc/ssh/authorized_keys
 COPY	${CURDIR}/ssh_host_rsa_key		etc/ssh/ssh_host_rsa_key
