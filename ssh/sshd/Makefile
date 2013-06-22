@@ -19,17 +19,29 @@ SRCS=	sshd.c auth-rhosts.c auth-passwd.c auth-rsa.c auth-rh-rsa.c \
 	kexdhs.c kexgexs.c kexecdhs.c sftp-server.c sftp-common.c \
 	roaming_common.c roaming_serv.c sandbox-systrace.c
     
-# From /usr/src/usr.bin/ssh/lib/Makefile 1.63
+# From /usr/src/usr.bin/ssh/lib/Makefile 1.67
 # remove cleanup.c from line 3
 SRCS+=	authfd.c authfile.c bufaux.c bufec.c bufbn.c buffer.c canohost.c \
-	channels.c cipher.c cipher-3des1.c cipher-bf1.c cipher-ctr.c \
+	channels.c cipher.c cipher-3des1.c cipher-bf1.c \
 	compat.c compress.c crc32.c deattack.c fatal.c \
 	hostfile.c log.c match.c nchan.c packet.c readpass.c \
 	rsa.c ttymodes.c xmalloc.c atomicio.c \
 	key.c dispatch.c kex.c mac.c uidswap.c uuencode.c misc.c \
 	ssh-dss.c ssh-rsa.c ssh-ecdsa.c dh.c kexdh.c kexgex.c kexecdh.c \
 	kexdhc.c kexgexc.c kexecdhc.c msg.c progressmeter.c dns.c \
-	monitor_fdpass.c umac.c addrmatch.c schnorr.c jpake.c ssh-pkcs11.c
+	monitor_fdpass.c umac.c addrmatch.c schnorr.c jpake.c ssh-pkcs11.c \
+	krl.c
+
+SRCS+=	umac128.c
+CLEANFILES+=   umac128.c
+${SRCDIR}/usr.bin/ssh/umac128.c: umac.c Makefile
+	sed \
+	    -e "s/^#define UMAC_OUTPUT_LEN     8/#define UMAC_OUTPUT_LEN 16/" \
+	    -e s/umac_new/umac128_new/g \
+	    -e s/umac_update/umac128_update/g \
+	    -e s/umac_final/umac128_final/g \
+	    -e s/umac_delete/umac128_delete/g \
+	    < ${SRCDIR}/usr.bin/ssh/umac.c > ${.TARGET}
 
 .include <bsd.prog.mk>
 
