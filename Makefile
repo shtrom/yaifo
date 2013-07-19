@@ -26,15 +26,11 @@ REALIMAGE!=	echo /var/tmp/image.${PID}
 
 STRIP=		strip
 OBJCOPY=	objcopy -Sg -R .comment 
-LABEL=		${.CURDIR}/${MACHINE}/label
-RDLABEL=	${.CURDIR}/${MACHINE}/rdlabel
 STAND=		${SRCDIR}/sys/arch/${MACHINE}/stand
 
 IMAGESIZE=	8192
 RDSIZE=		8192
 NEWFSOPTS=	-m 0 -o space -i 4096
-LABELOPTS?=	-R ${VND} ${LABEL}
-RDLABELOPTS?=	-R ${VND} ${RDLABEL}
 
 # architecture specific variables
 .if ${MACHINE} == "alpha"
@@ -143,7 +139,7 @@ ${FS}:	bsd.gz
 	dd if=/dev/zero of=${REALIMAGE} count=${IMAGESIZE}
 	${SUDO} vnconfig -v -c ${VND} ${REALIMAGE}
 	${SUDO} fdisk -iy ${VND_CRDEV}
-	${SUDO} disklabel ${LABELOPTS}
+	${SUDO} printf "a a\n\n\n\nw\nq\n" | disklabel -E ${VND} > /dev/null 2>&1
 	${SUDO} newfs ${NEWFSOPTS} ${VND_RDEV}
 	${SUDO} mount ${VND_DEV} ${MOUNT_POINT}
 	${SUDO} cp ${BOOT} ${BOOTOUT}
@@ -184,7 +180,7 @@ rd_setup: ${CBIN}
 	dd if=/dev/zero of=${REALIMAGE} bs=512 count=${RDSIZE}
 	${SUDO} vnconfig -v -c ${VND} ${REALIMAGE}
 	${SUDO} fdisk -iy ${VND_CRDEV}    
-	${SUDO} disklabel ${RDLABELOPTS}
+	${SUDO} printf "a a\n\n\n\nw\nq\n" | disklabel -E ${VND} > /dev/null 2>&1
 	${SUDO} newfs ${NEWFSOPTS} ${VND_RDEV}
 	${SUDO} fsck ${VND_RDEV}
 	${SUDO} mount ${VND_DEV} ${MOUNT_POINT}
