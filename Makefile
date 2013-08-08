@@ -28,9 +28,9 @@ STRIP=		strip
 OBJCOPY=	objcopy -Sg -R .comment 
 STAND=		${SRCDIR}/sys/arch/${MACHINE}/stand
 
-IMAGESIZE=	8192
+IMAGESIZE=	16384
 RDSIZE=		8192
-NEWFSOPTS=	-m 0 -o space -i 4096
+NEWFSOPTS=	-m 0 -o space -i 8192
 
 # architecture specific variables
 .if ${MACHINE} == "alpha"
